@@ -1,18 +1,38 @@
-# Corepack Rewards App Example
+# Welcome to Remix!
 
-This is a Corepack rewards app example using [RainbowKit](https://rainbowkit.com) + [wagmi](https://wagmi.sh) + [Next.js](https://nextjs.org/) and bootstrapped with [`create-rainbowkit`](https://github.com/rainbow-me/rainbowkit/tree/main/packages/create-rainbowkit).
+- [Remix Docs](https://remix.run/docs)
 
-## Getting Started
+## Development
 
-First, run the development server:
+From your terminal:
 
-```bash
-mv env.example .env
-
-# Make necessary changes to the .env file
-
-pnpm install
-pnpm dev
+```sh
+pnpm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This starts your app in development mode, rebuilding assets on file changes.
+
+## Deployment
+
+First, build your app for production:
+
+```sh
+pnpm run build
+```
+
+Then run the app in production mode:
+
+```sh
+pnpm start
+```
+
+Now you'll need to pick a host to deploy it to.
+
+### DIY
+
+If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
+
+Make sure to deploy the output of `remix build`
+
+- `build/`
+- `public/build/`
