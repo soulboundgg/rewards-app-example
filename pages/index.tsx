@@ -7,8 +7,7 @@ import styles from "../styles/Home.module.css";
 import { createTRPCUntypedClient, httpBatchLink } from "@trpc/client";
 import { ethers } from "ethers";
 
-const REWARD_VAULT_ADDRRESS = process.env
-  .NEXT_PUBLIC_REWARD_VAULT_ADDRRESS as string;
+const REWARD_VAULT_ADDRESS = process.env.NEXT_PUBLIC_REWARD_VAULT_ADDRESS as string;
 
 const trpcClient = createTRPCUntypedClient({
   links: [
@@ -50,9 +49,7 @@ const NFTCard = (props: ReadableProof) => {
 
   React.useEffect(() => {
     async function fetchMetadata() {
-      let provider = new ethers.providers.JsonRpcProvider(
-        process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL
-      );
+      let provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL);
 
       const rewardContract = new ethers.Contract(
         props.rewardContractAddress,
@@ -112,11 +109,9 @@ const NFTCard = (props: ReadableProof) => {
 
   React.useEffect(() => {
     async function isNftClaimed(sourceId: string) {
-      let provider = new ethers.providers.JsonRpcProvider(
-        process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL
-      );
+      let provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL);
       const vaultContract = new ethers.Contract(
-        REWARD_VAULT_ADDRRESS,
+        REWARD_VAULT_ADDRESS,
         ["function isClaimed(uint256 sourceId) public view returns (bool)"],
         provider
       );
@@ -131,7 +126,7 @@ const NFTCard = (props: ReadableProof) => {
     if (!signer) return;
 
     const _vaultContract = new ethers.Contract(
-      REWARD_VAULT_ADDRRESS,
+      REWARD_VAULT_ADDRESS,
       [
         "function claim(uint256 sourceId, address recipient, address collection, uint256 tokenId, uint256 amount, bytes32[] calldata proof)",
       ],
@@ -154,11 +149,7 @@ const NFTCard = (props: ReadableProof) => {
     <div className={styles.card}>
       <img src={metadata.image} alt="" />
       <div>TokenId: {props.tokenId}</div>
-      {!isClaimed ? (
-        <button onClick={() => performClaim()}>Claim</button>
-      ) : (
-        <span>Claimed</span>
-      )}
+      {!isClaimed ? <button onClick={() => performClaim()}>Claim</button> : <span>Claimed</span>}
     </div>
   );
 };
@@ -175,8 +166,8 @@ const Home: NextPage = () => {
     async function fetchUserProofs() {
       if (!address) return;
       const response = await trpcClient.query("rewardIntents.proofs", {
-        chain_id: chain?.id,
-        rewards_vault_address: REWARD_VAULT_ADDRRESS,
+        chain_id: `${chain?.id}`,
+        reward_vault_address: REWARD_VAULT_ADDRESS,
         recipient_address: address,
       });
       const _proofs = (response as any)?.data?.proofs ?? [];
