@@ -70,6 +70,7 @@ const ClaimPage = () => {
       fetcher.load(`/api/claim/${address}`);
     } else {
       errorToast('You have not completed all the objectives');
+      setIsLoading(false);
     }
   };
 
